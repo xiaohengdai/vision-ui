@@ -1,3 +1,5 @@
+import os
+
 import numpy
 import cv2
 
@@ -105,17 +107,24 @@ class Stitcher(object):
         :param merge: operate image merge
         :return: image merge name
         """
+        project_path=os.path.abspath(os.path.join(os.getcwd(), ".."))
+        print("project_path:",project_path)
         img_list = []
         for img in self.img_list:
-            img_list.append('capture/'+img)
-        name = 'capture/'+name
+            img_list.append(project_path+'/'+'capture/'+img)
+
+        name = project_path+'/'+'capture/'+name
         if len(img_list) < 2:
             cv2.imwrite(name, cv2.imread(img_list[0]))
         else:
             img1 = img_list[0]
+            print("img1:",img1)
+            print(cv2.imread(img1))
             for img in img_list[1:]:
                 index = img_list.index(img)
                 if img_list.index(img) == 1:
+                    print("img:", img)
+                    print(cv2.imread(img))
                     img1 = self.img_merge(cv2.imread(img1), cv2.imread(img), index, merge)
                 else:
                     img1 = self.img_merge(img1, cv2.imread(img), index, merge)
