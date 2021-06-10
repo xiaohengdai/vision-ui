@@ -110,13 +110,15 @@ class Stitcher(object):
         img_list = []
         w = 0 if without_padding else self.w
         for img in self.img_list:
-            img_list.append('capture/'+img)
-        name = 'capture/'+name
+            img_list.append(img)
+        name = name
         if len(img_list) < 2:
             cv2.imwrite(name, cv2.imread(img_list[0]))
         else:
             img1 = img_list[0]
+            print("img1:",img1)
             for img in img_list[1:]:
+                print("img:", img)
                 index = img_list.index(img)
                 if img_list.index(img) == 1:
                     img1 = self.img_merge(cv2.imread(img1), cv2.imread(img), index, w, merge)
